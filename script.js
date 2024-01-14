@@ -75,7 +75,7 @@
   }
 
   function fill_in_first_and_last(game_words) {
-    
+    console.log(game_words)
     var first_word = game_words[0];
     var first_row = document.querySelectorAll('[row="1"]');
 
