@@ -34,7 +34,7 @@
 nav {
     color: var(--vine-color);
     border-bottom: 1px solid gray ;
-    text-shadow: 1px 1px var(--text-shadow-color);
+    text-shadow: 0 1px 2px black;
 
     grid-area: nav;
     padding: .1rem;
@@ -356,8 +356,8 @@ nav {
   
   .alert {
     pointer-events: none;
-    background-color: var(--grape-color);
-    color: white;
+    background-color: whitesmoke;
+    color: black;
     padding: .75em;
     border-radius: .25em;
     opacity: .9;

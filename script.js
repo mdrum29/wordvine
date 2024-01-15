@@ -1,4 +1,4 @@
-
+  // V 1.0.1
   const puzzles = [
     ["TOOL", "BOX", "LUNCH", "TIME", "CRUNCH", "BAR"],
     ["BIG", "DADDY", "YANKEE", "DOODLE", "ART", "CLASS"],
@@ -49,13 +49,15 @@
   const guessGrid = document.querySelector("[data-guess-grid]")
   
   const game_words = getPuzzle(puzzles)
-  window.onload = startInteraction()
-  window.onload = set_all_tiles_back_to_default()
+  startInteraction()
+  set_all_tiles_back_to_default()
 
 
-  window.onload = setTimeout(function() {
+  setTimeout(function() {
     fill_in_first_and_last(game_words);
   }, 500);
+
+
 
   function getPuzzle(puzzles) {
     const offsetFromDate = new Date(2024, 0, 14)
@@ -412,9 +414,8 @@
       const all_tiles =  guessGrid.querySelectorAll("[data-state]");
     
       if (remainingTiles.length === 0) {
-        showAlert("You Win!", );
         score = calculate_score(MAX_SCORE, seconds, guessCount, hintCount)
-        showAlert("Your Score: " + score);
+        showAlert("You Win!" + "Your Score: " + score);
         stopTimer()
         stopInteraction();
         console.log("allti")
