@@ -49,9 +49,13 @@
   const guessGrid = document.querySelector("[data-guess-grid]")
   
   const game_words = getPuzzle(puzzles)
-  startInteraction()
-  set_all_tiles_back_to_default()
-  fill_in_first_and_last(game_words)
+  window.onload = startInteraction()
+  // window.onload = set_all_tiles_back_to_default()
+
+
+  window.onload = setTimeout(function() {
+    fill_in_first_and_last(game_words);
+  }, 500);
 
   function getPuzzle(puzzles) {
     const offsetFromDate = new Date(2024, 0, 14)
@@ -70,11 +74,13 @@
   function set_all_tiles_back_to_default() {
     tiles = document.querySelectorAll('.tile');
     tiles.forEach(tile=> {
-      tile.className = 'tile';
+      tile.classList.remove('shine')
+      tile.classList.remove('flip')
     })
   }
 
   function fill_in_first_and_last(game_words) {
+    set_all_tiles_back_to_default()
     console.log(game_words)
     var first_word = game_words[0];
     var first_row = document.querySelectorAll('[row="1"]');
@@ -99,9 +105,6 @@
             letter = ''
         };
         flip_tile(tile, letter, "starter")
-        setTimeout(function(){
-          shine_tiles(tile)
-      }, 350);
     })
 
 
@@ -118,22 +121,17 @@
             letter = ''
         };
         flip_tile(tile, letter, "starter")
-        setTimeout(function(){
-          shine_tiles(tile)
-      }, 350);
     })
 
     // // giving first letter of second word.
     flip_tile(second_row[0], second_word[0], "correct")
-    setTimeout(function(){
-      shine_tiles(second_row[0])
-    }, 350);
+
+    setTimeout(function() {
+      shine_tiles(first_row);
+      shine_tiles(last_row);
+      shine_tiles(second_row[0]);
+    }, 500);
     
-    
-    // shine_tiles(second_row[0])
-    // second_row[0].setAttribute('data-state', 'correct')
-    // second_row[0].dataset.letter = second_word[0]
-    // second_row[0].textContent = second_word[0]
 
 
 }
@@ -255,11 +253,11 @@
         correct_answer()
         WL = checkWinLose()
         if (WL !== true) {
+          stopInteraction()
           give_next_letter()
+          startInteraction()
         }
-        // Correct answer logic
-        // include animation
-        // move to the next line a give the first letter of the next word.
+
     } else {
         if (guess === "XXXXXX") {
           correct_tiles = document.querySelectorAll('[data-state="correct"], [data-state="hint_given"]')
@@ -270,15 +268,8 @@
         }
         shakeTiles(tiles_to_animate)
         wrong_answer()
-        // give_next_letter()
-        // wrong answer logic
-        // include animation
-        // clear out guess and give the next letter in the same word.
     }
 
-    
-    // stopInteraction()
-    // activeTiles.forEach((...params) => flipTile(...params, guess))
   }
   
   
@@ -392,7 +383,7 @@
 
     function give_hint() {
         count_hint()
-        var last_correct = document.querySelectorAll('[data-state="correct"], [data-state="hint_given"]')
+        var last_correct = document.querySelectorAll('[data-state="correct"], [data-state="hint_given"], [data-state="disabled"]')
         cur_row = last_correct[last_correct.length-1].getAttribute("row")
         next_col = (parseInt(last_correct[last_correct.length-1].getAttribute("col"),10) + 1).toString()
         hint_tile = document.querySelector('.tile[row="' + cur_row + '"][col="' + next_col + '"]');
@@ -451,43 +442,6 @@
       }, duration)
     }
 
-    function flipTile(tile, index, array, guess) {
-      const letter = tile.dataset.letter
-      const key = keyboard.querySelector(`[data-key="${letter}"i]`)
-      setTimeout(() => {
-        tile.classList.add("flip")
-      }, (index * FLIP_ANIMATION_DURATION) / 2)
-    
-      tile.addEventListener(
-        "transitionend",
-        () => {
-          tile.classList.remove("flip")
-          if (targetWord[index] === letter) {
-            tile.dataset.state = "correct"
-            key.classList.add("correct")
-          } else if (targetWord.includes(letter)) {
-            tile.dataset.state = "wrong-location"
-            key.classList.add("wrong-location")
-          } else {
-            tile.dataset.state = "wrong"
-            key.classList.add("wrong")
-          }
-    
-          if (index === array.length - 1) {
-            tile.addEventListener(
-              "transitionend",
-              () => {
-                startInteraction()
-                checkWinLose(guess, array)
-              },
-              { once: true }
-            )
-          }
-        },
-        { once: true }
-      )
-    }
-
     function shakeTiles(tiles) {
       stopInteraction()
       tiles.forEach(tile => {
@@ -529,43 +483,6 @@
       }
     
       animationFrame();
-    }
-    
-    function flipTile(tile, index, array, guess) {
-      const letter = tile.dataset.letter
-      const key = keyboard.querySelector(`[data-key="${letter}"i]`)
-      setTimeout(() => {
-        tile.classList.add("flip")
-      }, (index * FLIP_ANIMATION_DURATION) / 2)
-    
-      tile.addEventListener(
-        "transitionend",
-        () => {
-          tile.classList.remove("flip")
-          if (targetWord[index] === letter) {
-            tile.dataset.state = "correct"
-            key.classList.add("correct")
-          } else if (targetWord.includes(letter)) {
-            tile.dataset.state = "wrong-location"
-            key.classList.add("wrong-location")
-          } else {
-            tile.dataset.state = "wrong"
-            key.classList.add("wrong")
-          }
-    
-          if (index === array.length - 1) {
-            tile.addEventListener(
-              "transitionend",
-              () => {
-                startInteraction()
-                checkWinLose(guess, array)
-              },
-              { once: true }
-            )
-          }
-        },
-        { once: true }
-      )
     }
 
     let intervalId;
@@ -666,7 +583,6 @@
      
 function flip_tile(tiles, next_letter, dataset){
   stopInteraction();
-  console.log(tiles.length)
   if (!tiles.length) {
     
     tiles.classList.add("flip");
@@ -678,7 +594,7 @@ function flip_tile(tiles, next_letter, dataset){
         tiles.textContent = next_letter;
         tiles.setAttribute('data-state', dataset)
       },
-      { once: true }
+      { once: false }
     )
   } else {
   tiles.forEach((tile) => {
@@ -691,7 +607,7 @@ function flip_tile(tiles, next_letter, dataset){
           tiles.textContent = next_letter;
           tiles.setAttribute('data-state', dataset);
         },
-        { once: true }
+        { once: false }
       )
   })}
   startInteraction();
