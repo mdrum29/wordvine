@@ -110,27 +110,27 @@
     })
 
 
-    last_row.forEach(tile => {
-      tile.className = "tile";
-    })
-    last_row.forEach(tile => {
-        col = parseInt(tile.getAttribute("col"),10)
-        tile.classList.remove("flip")
+    // last_row.forEach(tile => {
+    //   tile.className = "tile";
+    // })
+    // last_row.forEach(tile => {
+    //     col = parseInt(tile.getAttribute("col"),10)
+    //     tile.classList.remove("flip")
         
-        if (col -1 < last_word.length){
-            letter = last_word[col-1].toUpperCase()
-        } else {
-            letter = ''
-        };
-        flip_tile(tile, letter, "starter")
-    })
+    //     if (col -1 < last_word.length){
+    //         letter = last_word[col-1].toUpperCase()
+    //     } else {
+    //         letter = ''
+    //     };
+    //     flip_tile(tile, letter, "starter")
+    // })
 
     // // giving first letter of second word.
     flip_tile(second_row[0], second_word[0], "correct")
 
     setTimeout(function() {
       shine_tiles(first_row);
-      shine_tiles(last_row);
+      // shine_tiles(last_row);
       shine_tiles(second_row[0]);
     }, 500);
     

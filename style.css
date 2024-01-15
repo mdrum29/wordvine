@@ -34,7 +34,7 @@
 nav {
     color: var(--vine-color);
     border-bottom: 1px solid gray ;
-    text-shadow: 0 1px 2px black;
+    text-shadow: 0 1px 2px rgba(0, 0, 0, 0.189);
 
     grid-area: nav;
     padding: .1rem;
@@ -52,15 +52,15 @@ nav {
     grid-area: scoreboard;
     border-radius: var(--main-radius);
     padding-top: var(--main-padding);
+    position:sticky;
 
     font-size: inherit;
     color: black;
     font-weight: bold;
     display: flex;
     align-items: center;
-    padding-top: 1em;
 
-    justify-content:  center;
+    justify-content: center;
 
 }
 
@@ -115,28 +115,6 @@ nav {
     grid-area: margin-right;
 }
 
-  /* .key {
-    font-size: inherit;
-    grid-column: span 2;
-    border: none;
-    padding: 0;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    background-color: hsl(
-      var(--hue, 0),
-      var(--saturation, 1%),
-      calc(var(--lightness-offset, 0%) + var(--lightness, 51%))
-    );
-    color: white;
-    fill: white;
-    text-transform: uppercase;
-    border-radius: .25em;
-    cursor: pointer;
-    user-select: none;
-    box-shadow: 0px 0px 1px rgba(0, 0, 0, .5);
-  } */
-
   .key {
     border-radius: .25em;
     backdrop-filter: blur(20px);
@@ -146,8 +124,8 @@ nav {
       calc(var(--lightness-offset, 0%) + var(--lightness, 90%))
     );
 
-    box-shadow: 0 1px 3px rgba(0, 0, 0, .25);
-    border: .11px solid rgba(255,255,255,.3);
+    box-shadow: 2px 2px 3px rgba(0, 0, 0, .1);
+    border: .11px solid rgb(0, 0, 0);
 
     font-size: inherit;
     font-weight: 700;
@@ -201,10 +179,11 @@ nav {
     padding-top: .5rem;
     padding-bottom: .5rem;
     text-shadow: .5px .5px black;
-    padding-inline-start: 1rem;
-    padding-inline-end:  1rem;
+    padding-inline-start: .5rem;
+    padding-inline-end:  .5rem;
     border-radius: var(--main-radius);
-    box-shadow: 0 1px 1px gray;
+    /* box-shadow: 0 1px 1px gray; */
+    box-shadow: 2px 2px 3px rgba(0, 0, 0, .1);
     
 
   }
@@ -215,28 +194,28 @@ nav {
 
   #timer-container {
     justify-content: space-evenly;
-    display: flex;
-    padding-left: 2em;
-    padding-right: 2em;
+    display:flex;
+    padding-left: 1em;
+    padding-right: 1em;
+
   }
 
   #guess-container {
     justify-content: space-evenly;
     display: flex;
-    padding-left: 2em;
-    padding-right: 2em;
+    padding-left: 1em;
+    padding-right: 1em;
   }
 
   #hint-container {
     justify-content: space-evenly;
     display: flex;
-    padding-left: 2em;
-    padding-right: 2em;
+    padding-left: 1em;
+    padding-right: 1em;
   }
 
   .tile {
     font-size: 3em;
-    /* border: .05em solid #9DB2BF; */
     text-transform: uppercase;
     font-weight: bold;
     display: flex;
@@ -245,16 +224,17 @@ nav {
     user-select: none;
     transition: transform 250ms linear;
     border-radius: 10%;
-    box-shadow: 0px 0px 2.5px rgba(0, 0, 0, .5);
+    /* box-shadow: 0px 0px 2.5px rgba(0, 0, 0, .5); */
     position: relative;
     text-shadow: .5px .5px var(--text-shadow-color);
     overflow: hidden;
+    background-color: rgba(211, 211, 211, 0.882);
   }
 
   @media only screen and (max-width: 650px) {
     .container{
         grid-template-columns: 1fr;
-        grid-template-rows: 0.1fr 0.1fr 1.5fr 0.2fr 1.5fr 0fr 0fr;
+        grid-template-rows: 0.2fr 0.1fr 1.2fr 0.2fr 1.2fr 0fr 0fr;
         grid-template-areas: 
         "nav"
         "scoreboard"
@@ -270,15 +250,18 @@ nav {
 
     #keyboard {
         font-size: clamp(1.05rem, 2.5vmin, 1.5rem); 
+
      }
 
+
      .hint_button {
-        font-size: clamp(1.25rem, 2.5vmin, 1.5rem); 
-        max-height: 4rem;
+        font-size: clamp(1.1rem, 2.5vmin, 1rem); 
+        max-height: 3rem;
      }
 
      #scoreboard {
         font-size: clamp(1rem, 2.5vmin, 1.5rem); 
+        justify-content: center;
      }
 
      #guessgrid-container {
@@ -325,6 +308,7 @@ nav {
   .tile[data-state="active"] {
     background-color: white;
     color: black;
+    border: .05em solid gray;
   }
   
   
@@ -336,7 +320,7 @@ nav {
   
   .tile[data-state="disabled"] {
     /* border: .05em solid hsl(0, 0%, 100%); */
-    background-color:  hsla(0, 0%, 0%, 0.283);
+    background-color:  hsla(0, 0%, 0%, 0.498);
   }
 
   .tile[data-state="starter"] {
