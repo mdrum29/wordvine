@@ -43,7 +43,7 @@
   const MAX_WORD_LENGTH = 6
   const MIN_WORD_LENGTH = 3
   const FLIP_ANIMATION_DURATION = 500
-  const DANCE_ANIMATION_DURATION = 500
+  const DANCE_ANIMATION_DURATION = 600
   const keyboard = document.querySelector("[data-keyboard]")
   const alertContainer = document.querySelector("[data-alert-container]")
   const guessGrid = document.querySelector("[data-guess-grid]")
@@ -63,10 +63,7 @@
     const offsetFromDate = new Date(2024, 0, 14)
     const msOffset = Date.now() - offsetFromDate
     const dayOffset = msOffset / 1000 / 60 / 60 / 24
-    console.log(puzzles)
     const targetWords = puzzles[Math.floor(dayOffset)]
-
-    console.log(targetWords)
     return targetWords
 
   }
@@ -83,7 +80,6 @@
 
   function fill_in_first_and_last(game_words) {
     set_all_tiles_back_to_default()
-    console.log(game_words)
     var first_word = game_words[0];
     var first_row = document.querySelectorAll('[row="1"]');
 
@@ -151,7 +147,6 @@
   function handleMouseClick(e) {
     
     if (e.target.matches("[data-key]")) {
-      console.log(e)
       pressKey(e.target.dataset.key)
       return
     }
@@ -250,7 +245,6 @@
     tiles_to_animate = document.querySelectorAll('.tile[row="' + targetRow + '"]')
 
     if (correct_word === guess){
-        
         shine_tiles(tiles_to_animate)
         correct_answer()
         WL = checkWinLose()
@@ -418,10 +412,8 @@
         showAlert("You Win!" + "Your Score: " + score);
         stopTimer()
         stopInteraction();
-        console.log("allti")
-        console.log(all_tiles)
-        
-        danceTiles(all_tiles.querySelectorAll('.tile[row="' + "5" + '"]'))
+
+        danceTiles(guessGrid.querySelectorAll('.tile[row="' + "6" + '"]'))
         return true;
       }
     
@@ -553,7 +545,7 @@
             },
             { once: true }
           )
-        }, (index * DANCE_ANIMATION_DURATION) / 5)
+        }, (index * DANCE_ANIMATION_DURATION) / 6)
       })
     }
 

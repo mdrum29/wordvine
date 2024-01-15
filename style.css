@@ -243,13 +243,12 @@ nav {
         "keyboard"
         "margin-left"
         "margin-right";
-        max-width: 99vw;
         ;
     }
 
 
     #keyboard {
-        font-size: clamp(1.05rem, 2.5vmin, 1.5rem); 
+        font-size: clamp(1.15rem, 2.5vmin, 1.5rem); 
 
      }
 
@@ -266,12 +265,12 @@ nav {
 
      #guessgrid-container {
         flex-grow: 1;
-        grid-template-columns: repeat(6, 5.5em);
-        grid-template-rows: repeat(6, 5.5em);
+        grid-template-columns: repeat(6, 6em);
+        grid-template-rows: repeat(6, 6em);
 
     }
     .tile {
-        font-size: clamp(2.2rem, 2.5vmin, 2.5rem); 
+        font-size: clamp(2.5rem, 2.7vmin, 2.7rem); 
     }
 
     nav {
@@ -303,11 +302,19 @@ nav {
       left: 100%;
     }
   }
+
+  i {
+      font-size: 1.75rem;
+      justify-content: center;
+      margin-left: .75rem;
+      margin-top: .75rem;
+
+  }
   
   
   .tile[data-state="active"] {
     background-color: white;
-    color: black;
+    color: var(--vine-color);
     border: .05em solid gray;
   }
   
@@ -398,10 +405,15 @@ nav {
   }
   
   .tile.dance {
-    animation: dance 1000ms ease-in-out;
+    animation: dance 600ms ease-in-out;
   }
   
   @keyframes dance {
+
+    0% {
+      transform: translateY(0%);
+    }
+    
     20% {
       transform: translateY(-50%);
     }  
@@ -418,12 +430,8 @@ nav {
       transform: translateY(2.5%);
     }  
   
-    90% {
-      transform: translateY(-5%);
-    }  
-  
     100% {
-      transform: translateY(0);
+      transform: translateY(0%);
     }
   }
   
