@@ -89,6 +89,7 @@ nav {
     display: flex;
     justify-content: center;
     padding-bottom: var(--main-padding);
+    
 }
 
 #keyboard {
@@ -157,15 +158,21 @@ nav {
     display: flex;
     justify-content: center;
     align-items: center;
+
+    
   }
   
   .key.large {
     grid-column: span 3;
+    font-size: clamp(.9rem, 2.5vmin, 1.2rem)
+    
   }
   
   .key > svg {
     width: 1.75em;
     height: 1.75em;
+    padding: 0;
+    
   }
   
   .key:hover, .key:focus {
@@ -197,6 +204,7 @@ nav {
     padding-inline-start: 1rem;
     padding-inline-end:  1rem;
     border-radius: var(--main-radius);
+    box-shadow: 0 1px 1px gray;
     
 
   }
@@ -254,7 +262,8 @@ nav {
         "hint-button"
         "keyboard"
         "margin-left"
-        "margin-right"
+        "margin-right";
+        max-width: 99vw;
         ;
     }
 
