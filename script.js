@@ -50,7 +50,7 @@
   
   const game_words = getPuzzle(puzzles)
   window.onload = startInteraction()
-  // window.onload = set_all_tiles_back_to_default()
+  window.onload = set_all_tiles_back_to_default()
 
 
   window.onload = setTimeout(function() {
