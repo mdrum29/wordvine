@@ -1,4 +1,60 @@
   // V 1.0.2
+
+  // CREATING LINE GRAPH
+
+let labels = ["", "", "", "", "","", "", "", "", "",];
+let itemData = [0,0,0,0,0,0,0,0,0,0];
+
+var data = {
+  labels: labels,
+  datasets: [{
+    data: itemData,
+    borderColor: 'rgb(62, 162, 124)',
+    label: '',
+    fill: true,
+    backgroundColor: 'rgba(85,190,150, 0.3)',
+    tension: 0.2,
+
+  }]
+};
+
+var config = {
+  type: 'line',
+  data: data,
+  options: {
+    elements: {
+      point:{
+          radius: 0
+      },
+    },
+    options: {  
+      responsive: true,
+      maintainAspectRatio: false
+    },
+    scales: {
+      y: {
+        beginAtZero: true,
+        ticks: {
+          display: false,
+        },
+      },
+    },
+    plugins: {
+      legend: {
+        display: false
+      },
+      title: {
+        display: false,
+        text: "last 10 scores"
+      }
+    }
+  }
+}
+
+const chart = new Chart(
+  document.getElementById('linechart'),
+  config
+)
   const puzzles = [
     ["TOOL", "BOX", "LUNCH", "TIME", "CRUNCH", "BAR"],
     ["BIG", "DADDY", "YANKEE", "DOODLE", "ART", "CLASS"],
@@ -82,7 +138,6 @@
     ["GRAPE", "VINE", "JUICE", "WORLD", "WIDE", "ANGLE"]
   ];
   
-  // var existing_storage = getStorage()
   const MAX_SCORE = 10000
   const MAX_WORD_LENGTH = 6
   const MIN_WORD_LENGTH = 3
@@ -322,8 +377,11 @@
           var avg = get_average (existing_storage)
           var high = get_high (existing_storage)
           var games_streak = findConsecutiveDates(existing_storage);
+          last10_scores = getlast10(existing_storage,last_score)
+          console.log(last10_scores)
 
-          open_stats_modal(last_score, avg, high, games_streak)
+          open_stats_modal(last_score, avg, high, games_streak, existing_storage)
+          update_chart(chart, last10_scores)
           
         }
 
@@ -480,7 +538,7 @@
               var avg = get_average (existing_storage)
               var high = get_high (existing_storage)
               var games_streak = findConsecutiveDates(existing_storage);
-              open_stats_modal(last_score, avg, high, games_streak)
+              open_stats_modal(last_score, avg, high, games_streak, existing_storage)
             }
         };
     }
@@ -691,7 +749,7 @@ function flip_tile(tiles, next_letter, dataset){
 
 // stat modal
 
-function open_stats_modal(last_score, avg, high, streak) {
+function open_stats_modal(last_score, avg, high, streak, wordvine_obj) {
   const modal = document.getElementById('stat-modal')
   modal.classList.add("open")
   update_stats(last_score, avg, high, streak)
@@ -789,6 +847,8 @@ function already_played_check(todays_date) {
       var avg = get_average (wordvine_obj)
       var high = get_high (wordvine_obj)
       var games_streak = findConsecutiveDates(wordvine_obj);
+      var last10_scores = getlast10(wordvine_obj, last_score)
+      console.log(last10_scores)
 
       setTimeout(function() {
         update_board_if_played(wordvine_obj, todays_date);
@@ -797,6 +857,8 @@ function already_played_check(todays_date) {
       setTimeout(function() {
         open_stats_modal(last_score, avg, high, games_streak);
       }, 1300);
+
+      update_chart(chart, last10_scores)
       
       
       return true
@@ -920,9 +982,6 @@ function get_high (wordvine_obj){
   }
 }
 
-
-
-
   function findConsecutiveDates(wordvine_obj) {
     var streak = 1
     if (wordvine_obj === null) {
@@ -952,6 +1011,45 @@ function get_high (wordvine_obj){
     return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
 }  
     
+function getlast10 (wordvine_obj, last_score){
+  if (wordvine_obj == null) {
+    return [0,0,0,0,0,0,0,0,0,last_score]
+  } else {
+    all_keys = Object.keys(wordvine_obj)
+    var rev_all_keys = all_keys.reverse()
+    let last10_scores = []
+    i=0
 
-    
+    for (let i = 0; i < rev_all_keys.length; i++) {
+      var game_day = rev_all_keys[i]
+      historical_score = wordvine_obj[game_day].score
+      last10_scores[i] = historical_score
+    }
 
+    last10_scores[last10_scores.length] = last_score
+    if (last10_scores.length !== 10) {
+      for (var i = 10; 10 > last10_scores.length; i--){
+        last10_scores.unshift(0)
+      }
+    }
+    return last10_scores
+  }
+}
+
+
+
+
+
+function update_chart(chart, last10_scores){
+    chart.data.datasets[0].data = last10_scores;
+    chart.data.datasets[0].data[1] = last10_scores[1];
+    chart.data.datasets[0].data[2] = last10_scores[2];
+    chart.data.datasets[0].data[3] = last10_scores[3];
+    chart.data.datasets[0].data[4] = last10_scores[4];
+    chart.data.datasets[0].data[5] = last10_scores[5];
+    chart.data.datasets[0].data[6] = last10_scores[6];
+    chart.data.datasets[0].data[7] = last10_scores[7];
+    chart.data.datasets[0].data[8] = last10_scores[8];
+    chart.data.datasets[0].data[9] = last10_scores[9];
+    chart.update();
+  }

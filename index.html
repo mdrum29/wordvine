@@ -10,6 +10,7 @@
   <link href="https://fonts.googleapis.com/css2?family=Oleo+Script+Swash+Caps:wght@400&display=swap" rel="stylesheet">
   <link href="https://emoji-css.afeld.me/emoji.css" rel="stylesheet">
   <script src="script.js" defer></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.8.0/chart.min.js"></script>
   <title>Word Vine</title>
 </head>
   <div class="container">
@@ -147,8 +148,14 @@
 
             <div class="graph-container">
                   <h3 class="graph-header">Last 10 Games</h3>
-                  <div class="graph">COMING SOON. Hi Lynsey</div>
+                  <div class="graph">
+                    <canvas id="linechart" style="width:100%;height:100%;"></canvas>
+                  </div>
             </div>
+<!-- 
+            <div class="share-container">
+                <button class="share-btn"></button>
+            </div> -->
   
         </div>
       </div>

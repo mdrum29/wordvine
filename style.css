@@ -276,6 +276,10 @@ nav {
     nav {
         font-size: clamp(2.5rem, 5vmin, 3rem); 
     }
+
+    .graph {
+      margin: 1.5rem;
+    }
      
 }
 
@@ -444,7 +448,7 @@ nav {
 
   /* Stat Modal */
   .stat-modal {
-    background-color: rgba(0, 0, 0, .5);
+    background-color: rgba(0, 0, 0, .75);
     opacity: 0;
     position: fixed;
     top: 0;
@@ -467,7 +471,7 @@ nav {
   }
 
   .inner-stat-modal {
-    background-color: rgba(0, 0, 0, .8);
+    background-color: rgba(0, 0, 0, .7);
     border: .15em solid var(--vine-color);
     border-radius: var(--main-radius);
     box-shadow: 0 1px 4px rgba(0, 0, 0, 1);
@@ -477,6 +481,7 @@ nav {
     max-width: 40rem;
     height: 40vh;
     color: white;
+    grid-gap: 5rem;
 
   }
 
@@ -585,7 +590,8 @@ nav {
     grid-template-areas: 
       "stk-count"
       "stk";
-    grid-gap: .1rem;
+      grid-gap: .25rem;
+
   }
   .stk {
     grid-area: stk;
@@ -609,7 +615,7 @@ nav {
   }
 
   .stk-count, .best-score, .last-score, .avg-score {
-    font-size: clamp(1.6rem, 1.85vmin, 1.85vmin);
+    font-size: clamp(1.4rem, 1.85vmin, 1.85vmin);
 
   }
 
@@ -618,28 +624,32 @@ nav {
     display: flex;
     justify-content: center;
     vertical-align: top;
-    font-size: clamp(1.25rem, 1.85vmin, 1.85vmin);
-    margin-top: -1.5rem;
+    font-size: clamp(1.2rem, 1.75vmin, 1.75vmin);
+    margin-top: -2rem;
   }
 
   .graph {
     grid-area: graph;
     display: flex;
     justify-content: center;
+    vertical-align: top;
+    padding-left: 1rem;
+    padding-right: 1rem;
+
   }
 
   .stats-container {
     padding-top: 1.1rem;
     display: grid;
     grid-template-columns: .25fr .25fr .25fr .25fr;
-    grid-template-rows: .33fr .33fr .33fr;
+    grid-template-rows: .33fr .1fr .9fr; 
     grid-template-areas: 
       "streak best-score average-score last-score"
       "last10 last10 last10 last10"
       "graph graph graph graph";
+      /* "share share share share"; */
     grid-gap: .25rem;
     justify-content: center;
-
   }
 
   @keyframes popup {
