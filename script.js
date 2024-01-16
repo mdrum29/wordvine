@@ -1,4 +1,4 @@
-  // V 1.0.1
+  // V 1.0.2
   const puzzles = [
     ["TOOL", "BOX", "LUNCH", "TIME", "CRUNCH", "BAR"],
     ["BIG", "DADDY", "YANKEE", "DOODLE", "ART", "CLASS"],
@@ -14,30 +14,74 @@
     ["APPLE", "TREE", "BRANCH", "OFFICE", "DEPOT", "STORE"],
     ["SPLIT", "ENDS", "MEET", "PEOPLE", "WATCH", "STRAP"],
     ["SUN", "FLOWER", "POT", "LUCK", "CHARM", "SCHOOL"],
-    ["SERVE", "LOOKS", "GOOD", "TIMES", "SQUARE", "MILE"],
-    ["PROFIT", "MARGIN", "CALL", "BACK", "TRACK", "MEET"],
-    ["MAFIA", "FIXER", "UPPER", "CLASS", "ACT", "COOL"],
-    ["KNEE", "DEEP", "DOWN", "SOUTH", "POLE", "VAULT"],
-    ["EMAIL", "CHAIN", "SMOKE", "ALARM", "CLOCK", "RADIO"],
-    ["REAL", "LIFE", "CEREAL", "BRAND", "IMAGE", "FRAME"],
-    ["ALPACA", "HERD", "CATTLE", "RANCH", "STYLE", "TREND"],
+    ["CREDIT", "CHECK", "PLEASE", "HOLD", "TIGHT", "KNIT"],
     ["PARTY", "CITY", "HALL", "PASS", "RUSH", "HOUR"],
-    ["ROUGH", "DRAFT", "KINGS", "GUARD", "DUTY", "CALLS"],
-    ["KEY", "BOARD", "VOTE", "COUNT", "DOWN", "BALLOT"],
-    ["TRADE", "STOCK", "INDEX", "CARD", "GAME", "POINT"],
-    ["LIKE", "BUTTON", "NOSE", "DIVE", "BOMBER", "JACKET"],
-    ["ISLAND", "JAVA", "SCRIPT", "PAD", "LOCK", "BOLT"],
-    ["HORSE", "AROUND", "TOWN", "PLAZA", "HOTEL", "RESORT"],
-    ["YOUNG", "ADULT", "SWIM", "LESSON", "PLAN", "AHEAD"],
-    ["CHUBBY", "CHEEK", "BONE", "MARROW", "SOUP", "SPOON"],
-    ["DANGER", "CLOSE", "KNIT", "SCARF", "DOWN", "BAD"],
-    ["CENTER", "FIELD", "TRIP", "WIRE", "MONEY", "ORDER"],
+    ["KNEE", "DEEP", "DOWN", "SOUTH", "POLE", "VAULT"],
     ["BED", "SPREAD", "SHEET", "ROCK", "MUSIC", "THEORY"],
-    ["JUST", "BARELY", "LEGAL", "PERMIT", "ONLY", "FANS"],
+    ["EMAIL", "CHAIN", "SMOKE", "ALARM", "CLOCK", "RADIO"],
+    ["JUNGLE", "BOOK", "SHELF", "LIFE", "LINE", "BACKER"],
+    ["THROW", "PILLOW", "FIGHT", "NIGHT", "VISION", "QUEST"],
+    ["FIRM", "GRIP", "TIGHT", "SPACE", "WALK", "TALL"],
+    ["CHUBBY", "CHEEK", "BONE", "MARROW", "SOUP", "SPOON"],
+    ["TRADE", "STOCK", "INDEX", "CARD", "GAME", "POINT"],
+    ["POINT", "BREAK", "FREE", "SPIRIT", "GUIDE", "DOG"],
+    ["UNITED", "STATES", "BORDER", "PATROL", "UNIT", "TEST"],
+    ["PROFIT", "MARGIN", "CALL", "BACK", "TRACK", "MEET"],
+    ["SPLIT", "ENDS", "MEET", "PEOPLE", "WATCH", "STRAP"],
+    ["TOOL", "BOX", "LUNCH", "TIME", "CRUNCH", "BAR"],
+    ["KEY", "BOARD", "VOTE", "COUNT", "DOWN", "BALLOT"],
+    ["YOUNG", "ADULT", "SWIM", "LESSON", "PLAN", "AHEAD"],
     ["TRAVEL", "BLOG", "POST", "MODERN", "FAMILY", "FEUD"],
-    ["HAND", "CREAM", "SODA", "POP", "QUIZ", "MASTER"]
+    ["REAL", "LIFE", "CEREAL", "BRAND", "IMAGE", "FRAME"],
+    ["SERVE", "LOOKS", "GOOD", "TIMES", "SQUARE", "MILE"],
+    ["HAND", "CREAM", "SODA", "POP", "QUIZ", "MASTER"],
+    ["APPLE", "TREE", "BRANCH", "OFFICE", "DEPOT", "STORE"],
+    ["CENTER", "FIELD", "TRIP", "WIRE", "MONEY", "ORDER"],
+    ["BIG", "DADDY", "YANKEE", "DOODLE", "ART", "CLASS"],
+    ["ROUGH", "DRAFT", "KINGS", "GUARD", "DUTY", "CALLS"],
+    ["LIKE", "BUTTON", "NOSE", "DIVE", "BOMBER", "JACKET"],
+    ["BINARY", "SEARCH", "TERM", "PAPER", "WEIGHT", "TRAIN"],
+    ["HAUL", "CARGO", "JET", "BLUE", "MOON", "PHASES"],
+    ["DANGER", "CLOSE", "KNIT", "SCARF", "DOWN", "BAD"],
+    ["ISLAND", "JAVA", "SCRIPT", "PAD", "LOCK", "BOLT"],
+    ["ALPACA", "HERD", "CATTLE", "RANCH", "STYLE", "TREND"],
+    ["SILENT", "FILM", "CAMERA", "FLASH", "FIRE", "WORKS"],
+    ["HORSE", "AROUND", "TOWN", "PLAZA", "HOTEL", "RESORT"],
+    ["JUST", "BARELY", "LEGAL", "PERMIT", "ONLY", "FANS"],
+    ["MAFIA", "FIXER", "UPPER", "CLASS", "ACT", "COOL"],
+    ["REMOTE", "CONTROL", "PANEL", "WALL", "STREET", "WALKER"],
+    ["PHONE", "NUMBER", "LINE", "DRIVE", "CRAZY", "PERSON"],
+    ["COZY", "COUCH", "POTATO", "CHIPS", "AHOY", "SAILOR"],
+    ["THIRD", "WORLD", "LEADER", "SHIP", "SHAPE", "SHIFT"],
+    ["POKER", "FACE", "SWAP", "NOTES", "APP", "STORE"],
+    ["TIDAL", "WAVE", "POOL", "CUE", "BALL", "FIELD"],
+    ["TRAIN", "DOG", "POUND", "SAND", "STONE", "HEART"],
+    ["PINK", "SPIDER", "WEB", "CRAWL", "SPACE", "HEATER"],
+    ["CACTUS", "JACK", "KNIFE", "BLADE", "RUNNER", "HIGH"],
+    ["WIELD", "SWORD", "FISH", "TAIL", "WAG", "CHIN"],
+    ["LAVA", "LAMP", "SHADE", "OVER", "DONE", "WELL"],
+    ["BENCH", "PRESS", "ISSUE", "MORE", "COMMON", "SENSE"],
+    ["SIXTH", "SENSE", "ORGAN", "DONOR", "BLOOD", "THIRST"],
+    ["THIRST", "QUENCH", "FIRE", "PLACE", "BLAME", "GAME"],
+    ["DEATH", "STAR", "BURST", "FADE", "BACK", "AWAY"],
+    ["CLOUDY", "SKY", "HIGH", "JUMP", "SCARE", "QUOTES"],
+    ["JUNIOR", "VARSITY", "JACKET", "POCKET", "BOOK", "CLUB"],
+    ["ROLL", "CAGE", "FREE", "WILL", "SMITH", "METAL"],
+    ["LAPTOP", "CASE", "LAW", "SCHOOL", "NIGHT", "MARE"],
+    ["HOLD", "OPEN", "DOOR", "HANDLE", "BAR", "STOOL"],
+    ["SINGLE", "MALT", "SUGAR", "PEA", "COAT", "HANGER"],
+    ["FACT", "FIND", "GOD", "AWFUL", "TRUTH", "SEEKER"],
+    ["NEAR", "RHYME", "ROYAL", "NAVY", "SEAL", "SCRIPT"],
+    ["GRAND", "SLAM", "DUNK", "COOKIE", "CRUMB", "CAKE"],
+    ["DOUBLE", "STEAL", "HEART", "BURN", "DINNER", "FORK"],
+    ["HOME", "LOAN", "SHARK", "TOOTH", "CAVITY", "SEARCH"],
+    ["FLIP", "SIDE", "SWIPE", "RIGHT", "MIND", "GAMES"],
+    ["CHUM", "BUCKET", "HAT", "TRICK", "SHOT", "CALLER"],
+    ["ANGRY", "BIRDS", "EYE", "DROP", "ANCHOR", "TENANT"],
+    ["SOFT", "SILK", "ROAD", "BLOCK", "CHAIN", "LINK"],
+    ["GRAPE", "VINE", "JUICE", "WORLD", "WIDE", "ANGLE"]
   ];
-
+  
   var existing_storage = getStorage()
   console.log(existing_storage)
   const MAX_SCORE = 10000
@@ -52,7 +96,7 @@
   const today = new Date();
   const yyyy = today.getFullYear();
   let mm = today.getMonth() + 1; // Months start at 0!
-  let dd = today.getDate()-2; 
+  let dd = today.getDate(); 
   if (dd < 10) dd = '0' + dd;
   if (mm < 10) mm = '0' + mm;
 
