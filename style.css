@@ -457,16 +457,18 @@ nav {
     display: flex;
     align-items: center;
     justify-content: center;
-
+    
   }
 
   .stat-modal.open {
     opacity: 1;
     z-index: 999;
+    animation: popup .8s;
   }
 
   .inner-stat-modal {
-    background-color: white;
+    background-color: rgba(0, 0, 0, .8);
+    border: .25em solid var(--vine-color);
     border-radius: var(--main-radius);
     box-shadow: 0 1px 4px rgba(0, 0, 0, 1);
     padding:  var(--main-padding);
@@ -474,13 +476,17 @@ nav {
     width: 70vw;
     max-width: 40rem;
     height: 40vh;
+    color: white;
 
   }
 
   .inner-stat-modal h2 {
     margin: 0;
-    padding-top: var(--main-padding);
-    padding-bottom: var(--main-padding);
+    padding-top: .6rem;
+    padding-bottom: .6rem ;
+    font-size: 1.25rem;
+    border-bottom: .1rem solid #55be9643;
+
 
   }
 
@@ -501,14 +507,14 @@ nav {
     grid-area: best;
     display: flex;
     justify-content: center;
-    font-size: clamp(.5rem, 1.75vmin, 1.75vmin);
-    font-weight: 700;
+
   }
+
   .best-score {
     grid-area: bst-score;
     display: flex;
     justify-content: center;
-    font-size: clamp(1rem, 1.85vmin, 1.85vmin);
+
   }
 
 
@@ -529,15 +535,13 @@ nav {
     grid-area: avg;
     display: flex;
     justify-content: center;
-    font-size: clamp(.5rem, 1.75vmin, 1.75vmin);
-    font-weight: 700;
 
   }
   .avg-score {
     grid-area: avg-score;
     display: flex;
     justify-content: center;
-    font-size: clamp(1rem, 1.85vmin, 1.85vmin);
+
   }
 
   .last-score-container {
@@ -557,8 +561,6 @@ nav {
     grid-area: last;
     display: flex;
     justify-content: center;
-    font-size: clamp(.5rem, 1.75vmin, 1.75vmin);
-    font-weight: 700;
     
   }
 
@@ -566,7 +568,6 @@ nav {
     grid-area: last-score;
     display: flex;
     justify-content: center;
-    font-size: clamp(1rem, 1.85vmin, 1.85vmin);
     
   }
 
@@ -590,15 +591,25 @@ nav {
     grid-area: stk;
     display: flex;
     justify-content: center;
-    font-size: clamp(.5rem, 1.75vmin, 1.75vmin);
-    font-weight: 700;
+
 
   }
   .stk-count {
     grid-area: stk-count;
     display: flex;
     justify-content: center;
-    font-size: clamp(1rem, 1.85vmin, 1.85vmin);
+    
+
+  }
+
+  .stk, .best, .last, .avg {
+    font-size: clamp(.8rem, 1.75vmin, 1.75vmin);
+    font-weight: 700;
+
+  }
+
+  .stk-count, .best-score, .last-score, .avg-score {
+    font-size: clamp(1.6rem, 1.85vmin, 1.85vmin);
 
   }
 
@@ -606,6 +617,9 @@ nav {
     grid-area: last10;
     display: flex;
     justify-content: center;
+    vertical-align: top;
+    font-size: clamp(1.25rem, 1.85vmin, 1.85vmin);
+    margin-top: -1.5rem;
   }
 
   .graph {
@@ -626,4 +640,28 @@ nav {
     grid-gap: .25rem;
     justify-content: center;
 
+  }
+
+  @keyframes popup {
+    0%{
+      transform: scale(1);
+    }
+    50%{
+      transform: scale(1.4);
+    }
+    60%{
+      transform: scale(1.1);
+    }
+    70%{
+      transform: scale(1.2);
+    }
+    80%{
+      transform: scale(1);
+    }
+    90%{
+      transform: scale(1.1);
+    }
+    100%{
+      transform: scale(1);
+    }
   }

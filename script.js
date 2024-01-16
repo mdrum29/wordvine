@@ -82,8 +82,7 @@
     ["GRAPE", "VINE", "JUICE", "WORLD", "WIDE", "ANGLE"]
   ];
   
-  var existing_storage = getStorage()
-  console.log(existing_storage)
+  // var existing_storage = getStorage()
   const MAX_SCORE = 10000
   const MAX_WORD_LENGTH = 6
   const MIN_WORD_LENGTH = 3
@@ -794,9 +793,15 @@ function already_played_check(todays_date) {
       var avg = get_average (wordvine_obj)
       var high = get_high (wordvine_obj)
       var streak = get_streak(wordvine_obj, todays_date)
+      setTimeout(function() {
+        update_board_if_played(wordvine_obj, todays_date);
+      }, 500);
 
-      update_board_if_played(wordvine_obj, todays_date)
-      open_stats_modal(last_score, avg, high, streak)
+      setTimeout(function() {
+        open_stats_modal(last_score, avg, high, streak);
+      }, 1500);
+      
+      
       return true
     } return false
 
