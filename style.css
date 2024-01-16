@@ -468,7 +468,7 @@ nav {
 
   .inner-stat-modal {
     background-color: rgba(0, 0, 0, .8);
-    border: .25em solid var(--vine-color);
+    border: .15em solid var(--vine-color);
     border-radius: var(--main-radius);
     box-shadow: 0 1px 4px rgba(0, 0, 0, 1);
     padding:  var(--main-padding);

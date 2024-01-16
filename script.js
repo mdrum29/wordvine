@@ -114,7 +114,6 @@
 
   } else {
     //  if havent played today
-    console.log("hit1")
     set_all_tiles_back_to_default()
     setTimeout(function() {
       fill_in_first_and_last(game_words);
@@ -322,9 +321,9 @@
           var existing_storage = getStorage()
           var avg = get_average (existing_storage)
           var high = get_high (existing_storage)
-          var streak = get_streak(existing_storage, todays_date)
-          console.log(avg, high, streak)
-          open_stats_modal(last_score, avg, high, streak)
+          var games_streak = findConsecutiveDates(existing_storage);
+
+          open_stats_modal(last_score, avg, high, games_streak)
           
         }
 
@@ -480,9 +479,8 @@
               var existing_storage = getStorage()
               var avg = get_average (existing_storage)
               var high = get_high (existing_storage)
-              var streak = get_streak(existing_storage, todays_date)
-              console.log(avg, high, streak)
-              open_stats_modal(last_score, avg, high, streak)
+              var games_streak = findConsecutiveDates(existing_storage);
+              open_stats_modal(last_score, avg, high, games_streak)
             }
         };
     }
@@ -708,28 +706,28 @@ function close_stats_modal() {
 function update_stats(last_score, avg, high, streak) {
   
   var last_score_div = document.querySelector("[data-last-score]")
-  last_score_div.textContent = last_score
+  last_score_div.textContent = numberWithCommas(last_score)
 
   var avg_score_div = document.querySelector("[data-avg-score]")
   if (avg == null) {
     avg = last_score
   }
 
-  avg_score_div.textContent = avg
+  avg_score_div.textContent = numberWithCommas(avg)
 
   var high_score_div = document.querySelector("[data-best-score]")
   if (high == null) {
     high = last_score
   }
 
-  high_score_div.textContent = high
+  high_score_div.textContent = numberWithCommas(high)
 
   var streak_div = document.querySelector("[data-streak-count]")
   if (streak == null) {
     var streak = 1
   }
 
-  streak_div.textContent = streak
+  streak_div.textContent = numberWithCommas(streak)
 
   
   
@@ -749,7 +747,6 @@ function getFinalBoard() {
 
 function getStorage() {
   if (localStorage.getItem("WordVineData") == null) {
-    console.log("getting null")
     var wordvine_obj = null
   } else {
     var wordvine_obj = JSON.parse(localStorage.getItem("WordVineData"));
@@ -773,7 +770,6 @@ function setStorage(final_board, score, guessCount) {
   } else {
     var wordvine_obj = JSON.parse(localStorage.getItem("WordVineData"));
     if (!(wordvine_obj.hasOwnProperty(todays_date))) {
-      console.log("hit")
       wordvine_obj[todays_date] = {
         "score": score,
         "final_board": final_board,
@@ -792,14 +788,15 @@ function already_played_check(todays_date) {
       var last_score = wordvine_obj[todays_date].score
       var avg = get_average (wordvine_obj)
       var high = get_high (wordvine_obj)
-      var streak = get_streak(wordvine_obj, todays_date)
+      var games_streak = findConsecutiveDates(wordvine_obj);
+
       setTimeout(function() {
         update_board_if_played(wordvine_obj, todays_date);
       }, 500);
 
       setTimeout(function() {
-        open_stats_modal(last_score, avg, high, streak);
-      }, 1500);
+        open_stats_modal(last_score, avg, high, games_streak);
+      }, 1300);
       
       
       return true
@@ -881,13 +878,10 @@ function update_board_if_played(wordvine_obj, todays_date){
 }
 
 function get_average (wordvine_obj){
-  console.log(wordvine_obj)
   if (wordvine_obj === null) {
     return null
   } else {
     all_keys = Object.keys(wordvine_obj)
-    console.log("keys")
-    console.log(all_keys)
     let all_scores = []
     i=0
 
@@ -896,14 +890,11 @@ function get_average (wordvine_obj){
       historical_score = wordvine_obj[game_day].score
       all_scores[i] = historical_score
     }
-    console.log("all_scores")
-    console.log(all_scores)
     var total = 0;
     for(var i = 0; i < all_scores.length; i++) {
         total += all_scores[i];
     }
     var avg = total / all_scores.length;
-    console.log(avg)
 
     return Math.round(avg)
   }
@@ -929,29 +920,38 @@ function get_high (wordvine_obj){
   }
 }
 
-function get_streak(wordvine_obj, todays_date) {
-  // var streak = 1
 
-  // if (wordvine_obj === null) {
-  //   console.log("getting null")
-  //   return streak
-  // } else {
-  //   all_dates = Object.keys(wordvine_obj)
-  //   const [month, day, year] = todays_date.split('/');
-  //   var today_dt = new Date(year, month - 1, day);
 
-  //   for (let i = 0; i < all_dates.length; i++) {
-  //     first_date = all_dates[i]
-  //     [month, day, year] = todays_date.split('/');
-  //     historical_score = wordvine_obj[game_day].score
-  //     all_scores[i] = historical_score
-  //   }
 
-  //   console.log("all_dates[0]")
-  //   console.log(all_dates[0])
-
-    return 1
+  function findConsecutiveDates(wordvine_obj) {
+    var streak = 1
+    if (wordvine_obj === null) {
+      return streak
+    } else {
+      var all_dates = Object.keys(wordvine_obj)
     }
+  
+    // Convert date strings to Date objects
+    const dates = all_dates.map(dateStr => new Date(dateStr)).sort((a, b) => b - a);  
+    
+    for (let i = 1; i < dates.length; i++) {
+      // Calculate the difference in days between consecutive dates
+      const dayDifference = (dates[i-1] - dates[i]) / (1000 * 60 * 60 * 24);
+  
+      // If the difference is 1, it's a consecutive date
+      if (dayDifference === 1) {
+        streak++;
+      } else {
+        break; // End the streak if consecutive dates are broken
+      }
+    }
+    return Math.max(1, streak); // Return at least 1
+  }
 
+  function numberWithCommas(x) {
+    return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+}  
+    
 
+    
 
