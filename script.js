@@ -38,31 +38,51 @@
     ["HAND", "CREAM", "SODA", "POP", "QUIZ", "MASTER"]
   ];
 
-  
+  var existing_storage = getStorage()
+  console.log(existing_storage)
   const MAX_SCORE = 10000
   const MAX_WORD_LENGTH = 6
   const MIN_WORD_LENGTH = 3
   const FLIP_ANIMATION_DURATION = 500
   const DANCE_ANIMATION_DURATION = 600
-  const keyboard = document.querySelector("[data-keyboard]")
+  const offsetFromDate = new Date(2024, 0, 14)
+  const msOffset = Date.now() - offsetFromDate
+  var dayOffset = msOffset / 1000 / 60 / 60 / 24
+
+  const today = new Date();
+  const yyyy = today.getFullYear();
+  let mm = today.getMonth() + 1; // Months start at 0!
+  let dd = today.getDate()-2; 
+  if (dd < 10) dd = '0' + dd;
+  if (mm < 10) mm = '0' + mm;
+
+  var todays_date = mm + '/' + dd + '/' + yyyy;
+ 
   const alertContainer = document.querySelector("[data-alert-container]")
   const guessGrid = document.querySelector("[data-guess-grid]")
-  
-  const game_words = getPuzzle(puzzles)
+  const game_words = getPuzzle(puzzles, dayOffset)
+
+  // init new game
   startInteraction()
-  set_all_tiles_back_to_default()
+  if (already_played_check(todays_date) === true) {
+    // if already played today
+    already_played_check(todays_date)
 
 
-  setTimeout(function() {
-    fill_in_first_and_last(game_words);
-  }, 500);
+  } else {
+    //  if havent played today
+    console.log("hit1")
+    set_all_tiles_back_to_default()
+    setTimeout(function() {
+      fill_in_first_and_last(game_words);
+    }, 500);
+    window.onload = startTimer;
+    var keyboard = document.querySelector("[data-keyboard]")
+  
 
-
-
-  function getPuzzle(puzzles) {
-    const offsetFromDate = new Date(2024, 0, 14)
-    const msOffset = Date.now() - offsetFromDate
-    const dayOffset = msOffset / 1000 / 60 / 60 / 24
+  }
+  
+  function getPuzzle(puzzles, dayOffset) {
     const targetWords = puzzles[Math.floor(dayOffset)]
     return targetWords
 
@@ -252,6 +272,17 @@
           stopInteraction()
           give_next_letter()
           startInteraction()
+        } else {
+          final_board = getFinalBoard()
+          var last_score = calculate_score(MAX_SCORE, seconds, guessCount, hintCount)
+          setStorage(final_board, last_score, guessCount)
+          var existing_storage = getStorage()
+          var avg = get_average (existing_storage)
+          var high = get_high (existing_storage)
+          var streak = get_streak(existing_storage, todays_date)
+          console.log(avg, high, streak)
+          open_stats_modal(last_score, avg, high, streak)
+          
         }
 
     } else {
@@ -399,6 +430,16 @@
             WL = checkWinLose()
             if (WL !== true) {
               give_next_letter()
+            } else {
+              final_board = getFinalBoard()
+              var last_score = calculate_score(MAX_SCORE, seconds, guessCount, hintCount)
+              setStorage(final_board, last_score, guessCount)
+              var existing_storage = getStorage()
+              var avg = get_average (existing_storage)
+              var high = get_high (existing_storage)
+              var streak = get_streak(existing_storage, todays_date)
+              console.log(avg, high, streak)
+              open_stats_modal(last_score, avg, high, streak)
             }
         };
     }
@@ -504,7 +545,7 @@
     }
   
     // Start the timer automatically on page load
-    window.onload = startTimer;
+    
 
     let guessCount = 0;
     let hintCount = 0;
@@ -605,3 +646,263 @@ function flip_tile(tiles, next_letter, dataset){
   })}
   startInteraction();
 }
+
+
+// stat modal
+
+function open_stats_modal(last_score, avg, high, streak) {
+  const modal = document.getElementById('stat-modal')
+  modal.classList.add("open")
+  update_stats(last_score, avg, high, streak)
+}
+
+function close_stats_modal() {
+  const modal = document.getElementById('stat-modal')
+  modal.classList.remove("open")
+
+}
+
+function update_stats(last_score, avg, high, streak) {
+  
+  var last_score_div = document.querySelector("[data-last-score]")
+  last_score_div.textContent = last_score
+
+  var avg_score_div = document.querySelector("[data-avg-score]")
+  if (avg == null) {
+    avg = last_score
+  }
+
+  avg_score_div.textContent = avg
+
+  var high_score_div = document.querySelector("[data-best-score]")
+  if (high == null) {
+    high = last_score
+  }
+
+  high_score_div.textContent = high
+
+  var streak_div = document.querySelector("[data-streak-count]")
+  if (streak == null) {
+    var streak = 1
+  }
+
+  streak_div.textContent = streak
+
+  
+  
+}
+
+function getFinalBoard() {
+  var final_board = [];
+  i=0
+  var states = guessGrid.querySelectorAll("[data-state]")
+  states.forEach(tile=> {
+    ds = tile.getAttribute("data-state")
+    final_board[i] = ds
+    i++
+  })
+    return final_board
+  }
+
+function getStorage() {
+  if (localStorage.getItem("WordVineData") == null) {
+    console.log("getting null")
+    var wordvine_obj = null
+  } else {
+    var wordvine_obj = JSON.parse(localStorage.getItem("WordVineData"));
+  }
+  return wordvine_obj
+}
+
+function setStorage(final_board, score, guessCount) {
+
+  // check for existing stored items
+  if (localStorage.getItem("WordVineData") === null) {
+
+    
+      var wordvine_obj = {};
+      wordvine_obj[todays_date] = {
+        "score": score,
+        "final_board": final_board,
+        "guess_count": guessCount,
+      }
+
+  } else {
+    var wordvine_obj = JSON.parse(localStorage.getItem("WordVineData"));
+    if (!(wordvine_obj.hasOwnProperty(todays_date))) {
+      console.log("hit")
+      wordvine_obj[todays_date] = {
+        "score": score,
+        "final_board": final_board,
+        "guess_count": guessCount,
+      }
+    }
+  }
+  let wordvine_obj_serialized = JSON.stringify(wordvine_obj);
+  localStorage.setItem("WordVineData", wordvine_obj_serialized)
+}
+
+function already_played_check(todays_date) {
+  if (localStorage.getItem("WordVineData") !== null) {
+    var wordvine_obj = JSON.parse(localStorage.getItem("WordVineData"))
+    if (wordvine_obj.hasOwnProperty(todays_date)) {
+      var last_score = wordvine_obj[todays_date].score
+      var avg = get_average (wordvine_obj)
+      var high = get_high (wordvine_obj)
+      var streak = get_streak(wordvine_obj, todays_date)
+
+      update_board_if_played(wordvine_obj, todays_date)
+      open_stats_modal(last_score, avg, high, streak)
+      return true
+    } return false
+
+  }
+}
+
+function update_board_if_played(wordvine_obj, todays_date){
+
+        // update board with previous result
+        var ds_list = wordvine_obj[todays_date].final_board
+
+        var first_row_board = ds_list.slice(0,6)
+        var first_row = document.querySelectorAll('[row="1"]');
+        for (let i = 0; i < first_row.length; i++) {
+          if (i > game_words[0].length) {
+            var letter = ""
+          } else {
+            var letter = game_words[0][i]
+          }
+          flip_tile(first_row[i], letter, first_row_board[i])
+        }
+  
+        var second_row_board = ds_list.slice(6,12)
+        var second_row = document.querySelectorAll('[row="2"]');
+        for (let i = 0; i < second_row.length; i++) {
+          if (i > game_words[1].length) {
+            var letter = ""
+          } else {
+            var letter = game_words[1][i]
+          }
+          flip_tile(second_row[i], letter, second_row_board[i])
+        }
+  
+        var third_row_board = ds_list.slice(12,18)
+        var third_row = document.querySelectorAll('[row="3"]');
+        for (let i = 0; i < third_row.length; i++) {
+          if (i > game_words[2].length) {
+            var letter = ""
+          } else {
+            var letter = game_words[2][i]
+          }
+          flip_tile(third_row[i], letter, third_row_board[i])
+        }
+  
+        var fourth_row_board = ds_list.slice(18,24)
+        var fourth_row = document.querySelectorAll('[row="4"]');
+        for (let i = 0; i < fourth_row.length; i++) {
+          if (i > game_words[3].length) {
+            var letter = ""
+          } else {
+            var letter = game_words[3][i]
+          }
+          flip_tile(fourth_row[i], letter, fourth_row_board[i])
+        }
+  
+        var fifth_row_board = ds_list.slice(24,30)
+        var fifth_row = document.querySelectorAll('[row="5"]');
+        for (let i = 0; i < fifth_row.length; i++) {
+          if (i > game_words[4].length) {
+            var letter = ""
+          } else {
+            var letter = game_words[4][i]
+          }
+          flip_tile(fifth_row[i], letter, fifth_row_board[i])
+        }
+  
+        var sixth_row_board = ds_list.slice(30,36)
+        var sixth_row = document.querySelectorAll('[row="6"]');
+        for (let i = 0; i < sixth_row.length; i++) {
+          if (i > game_words[5].length) {
+            var letter = ""
+          } else {
+            var letter = game_words[5][i]
+          }
+          flip_tile(sixth_row[i], letter, sixth_row_board[i])
+        }
+}
+
+function get_average (wordvine_obj){
+  console.log(wordvine_obj)
+  if (wordvine_obj === null) {
+    return null
+  } else {
+    all_keys = Object.keys(wordvine_obj)
+    console.log("keys")
+    console.log(all_keys)
+    let all_scores = []
+    i=0
+
+    for (let i = 0; i < all_keys.length; i++) {
+      game_day = all_keys[i]
+      historical_score = wordvine_obj[game_day].score
+      all_scores[i] = historical_score
+    }
+    console.log("all_scores")
+    console.log(all_scores)
+    var total = 0;
+    for(var i = 0; i < all_scores.length; i++) {
+        total += all_scores[i];
+    }
+    var avg = total / all_scores.length;
+    console.log(avg)
+
+    return Math.round(avg)
+  }
+}
+
+function get_high (wordvine_obj){
+  if (wordvine_obj === null) {
+    return null
+  } else {
+    all_keys = Object.keys(wordvine_obj)
+    let all_scores = []
+    i=0
+
+    for (let i = 0; i < all_keys.length; i++) {
+      game_day = all_keys[i]
+      historical_score = wordvine_obj[game_day].score
+      all_scores[i] = historical_score
+    }
+
+    var high = Math.max(...all_scores)
+
+    return high
+  }
+}
+
+function get_streak(wordvine_obj, todays_date) {
+  // var streak = 1
+
+  // if (wordvine_obj === null) {
+  //   console.log("getting null")
+  //   return streak
+  // } else {
+  //   all_dates = Object.keys(wordvine_obj)
+  //   const [month, day, year] = todays_date.split('/');
+  //   var today_dt = new Date(year, month - 1, day);
+
+  //   for (let i = 0; i < all_dates.length; i++) {
+  //     first_date = all_dates[i]
+  //     [month, day, year] = todays_date.split('/');
+  //     historical_score = wordvine_obj[game_day].score
+  //     all_scores[i] = historical_score
+  //   }
+
+  //   console.log("all_dates[0]")
+  //   console.log(all_dates[0])
+
+    return 1
+    }
+
+
+
