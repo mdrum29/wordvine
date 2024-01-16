@@ -858,7 +858,11 @@ function already_played_check(todays_date) {
         open_stats_modal(last_score, avg, high, games_streak);
       }, 1300);
 
-      update_chart(chart, last10_scores)
+      setTimeout(function() {
+        update_chart(chart, last10_scores);
+      }, 2000);
+
+      
       
       
       return true
